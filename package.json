@@ -1,0 +1,27 @@
+{
+  "name": "telegram-hottest-message",
+  "version": "1.0.0",
+  "description": "get the hottest messages in telegram.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsc && node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jianqiao0313/Telegram-Hottest-Message.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jianqiao0313/Telegram-Hottest-Message/issues"
+  },
+  "homepage": "https://github.com/jianqiao0313/Telegram-Hottest-Message#readme",
+  "dependencies": {
+    "@types/node": "^24.0.12",
+    "atomic-sleep": "^1.0.0",
+    "commander": "^14.0.0",
+    "telegram": "^2.26.22",
+    "tsc": "^2.0.4",
+    "typescript": "^5.8.3"
+  }
+}
