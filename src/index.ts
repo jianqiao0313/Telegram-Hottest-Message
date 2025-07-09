@@ -9,7 +9,7 @@ clear();
 console.log(
   chalk.yellow(
     figlet.textSync("THM", {
-      font: "Ghost",
+      font: "Blocks",
       horizontalLayout: "default",
       verticalLayout: "default",
       width: 80,
@@ -21,11 +21,11 @@ console.log(
 program
   .name('thm')
   .description('CLI to get the hottest messages from a Telegram channel')
+  .option('-I, --apiId <number>', 'apiId')
+  .option('-A, --apiHash <string>', 'apiHash')
+  .option('-S, --session <string>', 'session (not bot session)')
+  .helpOption("-H, --help", "help for command")
   .version('0.0.1')
-  .option('-i, --apiId <number>', 'apiId')
-  .option('-a, --apiHash <string>', 'apiHash')
-  .option('-s, --session <string>', 'session')
-  .helpOption("-h, --help", "help for command");
 
 program.parse();
 const options = program.opts();
