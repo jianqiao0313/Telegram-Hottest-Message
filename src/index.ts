@@ -5,7 +5,8 @@ import clear from 'clear';
 import { NormalizedPackageJson, readPackage } from 'read-pkg';
 import { TelegramClient } from "telegram";
 import { StringSession } from "telegram/sessions";
-import input from '@inquirer/input'; 
+import input from '@inquirer/input';
+import { exit } from "process";
 
 const program = new Command();
 
@@ -43,6 +44,7 @@ const checkOptions = (options: TCommandOptions) => {
 const run = async (options: TCommandOptions) => {
   console.log(chalk.green('Running with options:'), options);
   const client = await login(options);
+  const dialog = await getDialogsList(client);
 }
 
 const login = async (options: TCommandOptions) => {
@@ -68,6 +70,19 @@ const login = async (options: TCommandOptions) => {
   console.log(chalk.green('登录成功！'));
   console.log(chalk.yellow('Your session string is:'), client.session.save());
   return client;
+}
+
+const getDialogsList = async (client: TelegramClient) => {
+  console.log(chalk.green('获取对话列表...'));
+  const dialogs = await client.getDialogs();
+  dialogs.forEach((dialog, index) => {
+    console.log(chalk.yellow(`[${index}]`), ` 名称: ${dialog.name}`);
+  });
+  const index = await input({ message: "请输入序号来选择获取的频道: " });
+  if(dialogs[+index]) {
+    return dialogs[+index];
+  }
+  exit(1);
 }
 
 const main = async () => {
