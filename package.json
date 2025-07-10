@@ -24,10 +24,11 @@
   "dependencies": {
     "@types/node": "^24.0.12",
     "atomic-sleep": "^1.0.0",
-    "chalk": "^5.4.1",
+    "chalk": "^4.0.0",
     "clear": "^0.1.0",
     "commander": "^14.0.0",
     "figlet": "^1.8.1",
+    "read-pkg": "^9.0.1",
     "telegram": "^2.26.22",
     "tsc": "^2.0.4",
     "typescript": "^5.8.3"

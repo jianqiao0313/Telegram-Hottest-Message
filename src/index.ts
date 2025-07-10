@@ -2,31 +2,35 @@ import { Command } from "commander";
 import figlet from 'figlet';
 import chalk from 'chalk';
 import clear from 'clear';
+import { NormalizedPackageJson, readPackage } from 'read-pkg';
 
 const program = new Command();
+const commander = async (packageJson: NormalizedPackageJson) => {
+  clear();
+  console.log(
+    chalk.yellow(
+      figlet.textSync(packageJson.name, {
+        font: "Calvin S",
+        width: 80,
+      })
+    )
+  );
+  program
+    .name('thm')
+    .description(packageJson.description || '')
+    .option('-I, --apiId <number>', 'apiId')
+    .option('-H, --apiHash <string>', 'apiHash')
+    .option('-S, --session <string>', 'session (not bot session)')
+    .helpOption("-h, --help", "help for command")
+    .version(packageJson.version)
 
-clear();
-console.log(
-  chalk.yellow(
-    figlet.textSync("THM", {
-      font: "Blocks",
-      horizontalLayout: "default",
-      verticalLayout: "default",
-      width: 80,
-      whitespaceBreak: true,
-    })
-  )
-);
+  program.parse();
+  const options = program.opts();
+  console.log(options);
+};
 
-program
-  .name('thm')
-  .description('CLI to get the hottest messages from a Telegram channel')
-  .option('-I, --apiId <number>', 'apiId')
-  .option('-A, --apiHash <string>', 'apiHash')
-  .option('-S, --session <string>', 'session (not bot session)')
-  .helpOption("-H, --help", "help for command")
-  .version('0.0.1')
-
-program.parse();
-const options = program.opts();
-console.log(options);
+const main = async () => {
+  const packageJson = await readPackage();
+  commander(packageJson)
+}
+main();
