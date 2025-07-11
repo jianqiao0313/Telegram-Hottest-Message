@@ -50,7 +50,7 @@ const run = async (options: TCommandOptions) => {
   const dialog = await getDialogsList(client);
   const messages = await getMessagesList(client, dialog);
   const sortedMessages = sortMessageList(messages);
-  await forWardTopMessage(sortedMessages, 100);
+  await forWardTopMessage(client, sortedMessages, dialog.name, 100);
   console.log(chalk.yellowBright('所有操作完成！'));
 }
 
@@ -128,12 +128,13 @@ const sortMessageList = (messagesList: any[]) => {
   return messagesList.sort((a, b) => b.reactionsCount - a.reactionsCount);
 }
 
-const forWardTopMessage = async (messageList: Api.Message[], top = 100) => {
+const forWardTopMessage = async (client: TelegramClient, messageList: Api.Message[], channelname = '', top = 100) => {
   console.log(chalk.green(`转发前 ${top} 条消息...`));
   const topMessages = messageList.slice(0, top);
   for (const message of topMessages) {
     try {
-      await message.forwardTo('me');
+      // await message.forwardTo('me');
+      await client.forwardMessages('me', { messages: topMessages, fromPeer: channelname });
       console.log(chalk.blue(`已转发消息 ID: ${message.id}`));
     } catch (error) {
       console.error(chalk.red(`转发消息 ID: ${message.id} 失败: `), error);
