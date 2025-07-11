@@ -7,13 +7,13 @@ import { LIMIT_PER_REQUEST, SLEEP_TIME } from './constant';
 
 const getMessagesList = async (client: TelegramClient, dialog: Dialog, options: TCommandOptions) => {
   const messagesList = [];
-  let offsetId: number | undefined = undefined;
+  let offsetId: number | undefined = options.offsetId ? +options.offsetId : undefined;
   while (true) {
     const messages = await _getMessage(client, dialog, offsetId);
     messagesList.push(...messages);
     offsetId = messages[messages.length - 1].id;
     console.log(chalk.green(`获取到 ${messages.length} 条消息，当前偏移ID: ${offsetId}，总计消息数: ${messagesList.length}`));
-    if (messages.length < 2000 || messagesList.length > +options.maxMessages) {
+    if (messages.length < LIMIT_PER_REQUEST || messagesList.length > +options.maxMessages) {
       break;
     }
     await sleep(SLEEP_TIME);

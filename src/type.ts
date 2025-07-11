@@ -26,6 +26,11 @@ export interface TCommandOptions {
    * Default is 10.
    */
   top: string;
+  /**
+   * The offset ID for messages.
+   * This is used to fetch messages starting from a specific ID.
+   */
+  offsetId?: string;
 }
 
 export type MessageWithReactionsCount = Api.Message & { reactionsCount?: number };

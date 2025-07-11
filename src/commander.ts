@@ -25,6 +25,7 @@ const commander = async (packageJson: NormalizedPackageJson) => {
     .option('-S, --session <string>', 'session (not bot session)', '')
     .option('-M, --maxMessages <number>', 'max messages to fetch default 100000', '100000')
     .option('-T, --top <number>', 'top messages to forward', '100')
+    .option('-O, --offsetId <number>', 'offset id for messages')
     .helpOption("-h, --help", "help for command")
     .version(packageJson.version)
 
