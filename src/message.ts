@@ -12,7 +12,7 @@ const getMessagesList = async (client: TelegramClient, dialog: Dialog, options: 
     const messages = await _getMessage(client, dialog, offsetId);
     messagesList.push(...messages);
     offsetId = messages[messages.length - 1].id;
-    console.log(chalk.green(`获取到 ${messages.length} 条消息，当前偏移ID: ${offsetId}`));
+    console.log(chalk.green(`获取到 ${messages.length} 条消息，当前偏移ID: ${offsetId}，总计消息数: ${messagesList.length}`));
     if (messages.length < 2000 || messagesList.length > +options.maxMessages) {
       break;
     }
