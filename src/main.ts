@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 import { readPackage } from 'read-pkg';
-import { Api, TelegramClient } from "telegram";
 import { TCommandOptions } from "./type";
 import commander from './commander';
 import getDialogsList from './dialogs';
