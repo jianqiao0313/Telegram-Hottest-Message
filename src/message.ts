@@ -1,9 +1,8 @@
 import chalk from 'chalk';
 import { Api, TelegramClient } from "telegram";
 import { Dialog } from "telegram/tl/custom/dialog";
-import { sleep } from "telegram/Helpers";
 import { MessageWithReactionsCount, TCommandOptions } from "./type";
-import { LIMIT_PER_REQUEST, SLEEP_TIME } from './constant';
+import { LIMIT_PER_REQUEST } from './constant';
 
 const getMessagesList = async (client: TelegramClient, dialog: Dialog, options: TCommandOptions) => {
   const messagesList = [];

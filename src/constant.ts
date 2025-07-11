@@ -1,1 +1,1 @@
-export const LIMIT_PER_REQUEST = 2500; // 每次请求的最大消息数
+export const LIMIT_PER_REQUEST = 1000; // 每次请求的最大消息数
