@@ -1,6 +1,6 @@
 import { Api } from "telegram";
 
-interface TCommandOptions {
+export interface TCommandOptions {
   /**
    * The API ID for the Telegram application.
    * This is required for connecting to the Telegram API.
@@ -16,6 +16,16 @@ interface TCommandOptions {
    * This is required for connecting to the Telegram API.
    */
   session: string;
+  /**
+   * The maximum number of messages to fetch.
+   * Default is 100000.
+   */
+  maxMessages: string;
+  /**
+   * The number of top messages to forward.
+   * Default is 10.
+   */
+  top: string;
 }
 
-export type MessageWithReactionsCount = Api.Message & { reactionsCount: number };
+export type MessageWithReactionsCount = Api.Message & { reactionsCount?: number };
