@@ -6,6 +6,7 @@ import getDialogsList from './dialogs';
 import { getMessagesList, sortMessageList } from './message';
 import login from './login';
 import forWardTopMessage from './forward';
+import { exit } from 'process';
 
 const run = async (options: TCommandOptions) => {
   console.log(chalk.green('Running with options:'), options);
@@ -21,6 +22,7 @@ const main = async () => {
   const packageJson = await readPackage();
   const options = await commander(packageJson)
   await run(options);
+  exit(0);
 }
 
 export default main;
