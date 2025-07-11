@@ -9,6 +9,7 @@ import input from '@inquirer/input';
 import { exit } from "process";
 import { Dialog } from "telegram/tl/custom/dialog";
 import { sleep } from "telegram/Helpers";
+import { MessageWithReactionsCount } from "./type";
 
 const program = new Command();
 const maxMessages = 10000;
@@ -115,15 +116,15 @@ const _getMessage = async (client: TelegramClient, dialog: Dialog, offsetId?: nu
   });
 }
 
-const sortMessageList = (messagesList: any[]) => {
-  messagesList.forEach(item => {
+const sortMessageList = (messagesList: MessageWithReactionsCount[]) => {
+  messagesList.forEach((item: MessageWithReactionsCount) => {
     let reactionsCount = 0;
     if (item.reactions && item.reactions.results) {
       item.reactions.results.forEach((_reaction: Api.TypeReactionCount) => {
         reactionsCount += _reaction.count;
       });
     }
-    item.reactionsCount = reactionsCount;
+    item['reactionsCount'] = reactionsCount;
   })
   return messagesList.sort((a, b) => b.reactionsCount - a.reactionsCount);
 }

@@ -1,3 +1,5 @@
+import { Api } from "telegram";
+
 interface TCommandOptions {
   /**
    * The API ID for the Telegram application.
@@ -15,3 +17,5 @@ interface TCommandOptions {
    */
   session: string;
 }
+
+export type MessageWithReactionsCount = Api.Message & { reactionsCount: number };
