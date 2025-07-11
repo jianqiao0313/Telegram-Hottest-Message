@@ -16,7 +16,6 @@ const getMessagesList = async (client: TelegramClient, dialog: Dialog, options: 
     if (messages.length < LIMIT_PER_REQUEST || messagesList.length > +options.maxMessages) {
       break;
     }
-    await sleep(SLEEP_TIME);
   }
   return messagesList;
 }
