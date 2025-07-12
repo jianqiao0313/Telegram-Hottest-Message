@@ -36,7 +36,7 @@ npm link
 ### Basic Usage
 
 ```bash
-thm -S your_session_string
+thm
 ```
 
 ### Full Parameters

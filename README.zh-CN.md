@@ -34,7 +34,7 @@ npm link
 ### 基本用法
 
 ```bash
-thm -S your_session_string
+thm
 ```
 
 ### 完整参数
