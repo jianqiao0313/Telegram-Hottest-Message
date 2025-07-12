@@ -71,28 +71,34 @@ When running for the first time, the program will prompt you to enter your phone
 
 ## Usage Examples
 
-### Example 1: Using default API credentials
+### Example 1: Using phoneCode login
+
+```bash
+thm
+```
+
+### Example 2: Using default API credentials
 
 ```bash
 thm -S "your_session_string_here"
 ```
 
-### Example 2: Get top 50 hottest messages
+### Example 3: Get top 50 hottest messages
 
 ```bash
 thm -S "your_session_string_here" -T 50
 ```
 
-### Example 3: Using custom proxy
+### Example 4: Using custom proxy
 
 ```bash
 thm -S "your_session_string_here" -P "socks5://user:pass@127.0.0.1:1080"
 ```
 
-### Example 4: Forward to specific chat
+### Example 5: Forward to specific chat
 
 ```bash
-thm -S "your_session_string_here" -F "@your_channel_username"
+thm -S "your_session_string_here" -F "your_channel_username"
 ```
 
 ## Workflow

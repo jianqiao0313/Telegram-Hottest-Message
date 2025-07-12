@@ -69,28 +69,34 @@ thm -I your_api_id -H your_api_hash -S your_session_string -M 50000 -T 20 -P soc
 
 ## 使用示例
 
-### 示例 1：使用默认 API 凭证
+### 示例 1：使用手机验证码或Telegram验证码登录
+
+```bash
+thm
+```
+
+### 示例 2：使用默认 API 凭证
 
 ```bash
 thm -S "your_session_string_here"
 ```
 
-### 示例 2：获取前 50 条热门消息
+### 示例 3：获取前 50 条热门消息
 
 ```bash
 thm -S "your_session_string_here" -T 50
 ```
 
-### 示例 3：使用自定义代理
+### 示例 4：使用自定义代理
 
 ```bash
 thm -S "your_session_string_here" -P "socks5://user:pass@127.0.0.1:1080"
 ```
 
-### 示例 4：转发到特定聊天
+### 示例 5：转发到特定聊天
 
 ```bash
-thm -S "your_session_string_here" -F "@your_channel_username"
+thm -S "your_session_string_here" -F "your_channel_username"
 ```
 
 ## 工作流程
