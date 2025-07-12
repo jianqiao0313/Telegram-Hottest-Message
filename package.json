@@ -9,6 +9,9 @@
     "start": "tsc && node dist/index.js",
     "lint": "eslint . --ext .ts"
   },
+  "engines": {
+    "node": ">=22"
+  },
   "bin": {
     "thm": "dist/index.js"
   },
