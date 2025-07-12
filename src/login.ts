@@ -5,13 +5,21 @@ import input from '@inquirer/input';
 import { TCommandOptions } from "./type";
 
 const login = async (options: TCommandOptions) => {
-  console.log(chalk.green('开始登录...'));
+  console.log(chalk.green('start login...'));
+  // 处理proxy
+  const proxyConfig = options.proxy;
+  const socksType = proxyConfig.startsWith('socks5://') ? 5 : 4;
+  const proxyUrl = proxyConfig.replace(/socks5?:\/\//, '');
+  // [user, pass, ip, port] or [ip, port]
+  const proxySplitArr = proxyUrl.split(/[:@]/);
   const client = new TelegramClient(new StringSession(options.session), +options.apiId, options.apiHash, {
     connectionRetries: 5,
     proxy: {
-      ip: '127.0.0.1',
-      port: 7890,
-      socksType: 5,
+      ip: proxySplitArr[proxySplitArr.length - 2],
+      port: +proxySplitArr[proxySplitArr.length - 1],
+      socksType,
+      username: proxySplitArr[proxySplitArr.length - 4],
+      password: proxySplitArr[proxySplitArr.length - 3],
     }
   });
   await client.connect();
@@ -24,8 +32,8 @@ const login = async (options: TCommandOptions) => {
       onError: (err) => console.log(chalk.red(err)),
     });
   }
-  console.log(chalk.green('登录成功！'));
-  console.log(chalk.yellow('Your session string is:'), client.session.save());
+  console.log(chalk.green('login success!'));
+  console.log(chalk.yellowBright('Your session string is:'), client.session.save());
   return client;
 }
 

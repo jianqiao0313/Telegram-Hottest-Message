@@ -31,6 +31,16 @@ export interface TCommandOptions {
    * This is used to fetch messages starting from a specific ID.
    */
   offsetId?: string;
+  /**
+   * The proxy URL to use for the connection.
+   * Default is 'socks5://127.0.0.1:7890'.
+   */
+  proxy: string;
+  /**
+   * The chat to forward messages to.
+   * Default is 'me'.
+   */
+  forward: string;
 }
 
 export type MessageWithReactionsCount = Api.Message & { reactionsCount?: number };

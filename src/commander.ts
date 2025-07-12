@@ -4,6 +4,7 @@ import chalk from 'chalk';
 import clear from 'clear';
 import { NormalizedPackageJson } from 'read-pkg';
 import { TCommandOptions } from "./type";
+import { exit } from "process";
 
 const program = new Command();
 
@@ -26,6 +27,8 @@ const commander = async (packageJson: NormalizedPackageJson) => {
     .option('-M, --maxMessages <number>', 'max messages to fetch default 100000', '100000')
     .option('-T, --top <number>', 'top messages to forward', '100')
     .option('-O, --offsetId <number>', 'offset id for messages')
+    .option('-P, --proxy <string>', 'proxy url (e.g. socks5://user:password@127.0.0.1:7890)', 'socks5://127.0.0.1:7890')
+    .option('-F, --forward <string>', 'forward hottest messages to a specific chat (default: me)', 'me')
     .helpOption("-h, --help", "help for command")
     .version(packageJson.version)
 
@@ -37,7 +40,12 @@ const commander = async (packageJson: NormalizedPackageJson) => {
 
 const checkOptions = (options: TCommandOptions) => {
   if (options.apiId === '2040' && options.apiHash === 'b18441a1ff607e10a989891a5462e627' && !options.session) {
-    console.error(chalk.blue('未输入 apiId、apiHash 或 session，使用默认apiId、apiHash。'));
+    console.error(chalk.blue('Not input apiId、apiHash or session, use default apiId、apiHash.'));
+  }
+  // check proxy
+  if (!options.proxy.startsWith('socks5://') && !options.proxy.startsWith('http://')) {
+    console.error(chalk.red('Proxy address must start with socks5:// or http://.'));
+    exit(1);
   }
 }
 
