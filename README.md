@@ -2,6 +2,8 @@
 
 Get the hottest messages from Telegram channels and forward them to specified chats.
 
+[中文文档](https://github.com/jianqiao0313/Telegram-Hottest-Message/blob/main/README.zh-CN.md)
+
 ## Features
 
 - 🔥 Sort messages by reaction count to find the hottest ones
