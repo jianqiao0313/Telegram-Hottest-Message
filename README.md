@@ -42,7 +42,7 @@ thm
 ### Full Parameters
 
 ```bash
-thm -I your_api_id -H your_api_hash -S your_session_string -M 50000 -T 20 -P socks5://127.0.0.1:7890 -F me
+thm -I your_api_id -H your_api_hash -S your_session_string -M 50000 -T 20 -P socks5://[user:pass@]127.0.0.1:7890 -F me
 ```
 
 ## Parameters
@@ -51,11 +51,11 @@ thm -I your_api_id -H your_api_hash -S your_session_string -M 50000 -T 20 -P soc
 |------|-----------|-------------|---------|
 | `-I` | `--apiId` | Telegram API ID | `2040` |
 | `-H` | `--apiHash` | Telegram API Hash | `b18441a1ff607e10a989891a5462e627` |
-| `-S` | `--session` | Session string (required) | None |
+| `-S` | `--session` | Session string | None |
 | `-M` | `--maxMessages` | Maximum messages to fetch | `100000` |
 | `-T` | `--top` | Number of top messages to forward | `100` |
 | `-O` | `--offsetId` | Message offset ID | None |
-| `-P` | `--proxy` | Proxy address | `socks5://127.0.0.1:7890` |
+| `-P` | `--proxy` | Proxy address | None |
 | `-F` | `--forward` | Forward target chat | `me` |
 
 ## Getting API Credentials
