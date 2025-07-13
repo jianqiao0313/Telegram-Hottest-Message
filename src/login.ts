@@ -30,10 +30,10 @@ const login = async (options: TCommandOptions) => {
   await client.connect();
   if (!await client.checkAuthorization()) {
     await client.start({
-      phoneNumber: async () => await input({ message: "Please enter your number: " }),
-      password: async () => await input({ message: "Please enter your password: " }),
+      phoneNumber: async () => await input({ message: chalk.blue("Please enter your number: ") }),
+      password: async () => await input({ message: chalk.blue("Please enter your password: ") }),
       phoneCode: async () =>
-        await input({ message: "Please enter the code you received: " }),
+        await input({ message: chalk.blue("Please enter the code you received: ") }),
       onError: (err) => console.log(chalk.red(err)),
     });
   }
