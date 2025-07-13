@@ -9,7 +9,6 @@ import { exit } from 'process';
 import * as packageJson from "../package.json"
 
 const run = async (options: TCommandOptions) => {
-  console.log(packageJson);
   console.log(chalk.green('Running with options:'), options);
   const client = await login(options);
   const dialog = await getDialogsList(client);
