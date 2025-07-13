@@ -4,12 +4,12 @@ import input from '@inquirer/input';
 import { exit } from "process";
 
 const getDialogsList = async (client: TelegramClient) => {
-  console.log(chalk.green('获取对话列表...'));
+  console.log(chalk.green('get dialogs...'));
   const dialogs = await client.getDialogs();
   dialogs.forEach((dialog, index) => {
-    console.log(chalk.yellow(`[${index}]`), '名称: ', chalk.green(dialog.name), '预估条数：', chalk.green(dialog.message?.id));
+    console.log(chalk.yellow(`[${index}]`), 'name: ', chalk.green(dialog.name), 'estimated messages: ', chalk.green(dialog.message?.id));
   });
-  const index = await input({ message: "请输入序号来选择获取的频道: " });
+  const index = await input({ message: chalk.blue("please enter the index of the dialog you want to select: ") });
   if (dialogs[+index]) {
     return dialogs[+index];
   }
