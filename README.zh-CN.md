@@ -2,7 +2,7 @@
 
 获取 Telegram 指定频道中最热门的消息(表情回复最多的)，并可以转发到指定聊天。（比如：想获取某些福利群组里，想看点赞最多最火的消息）
 
-![demo-1.0.3](https://gezichenshan.oss-cn-beijing.aliyuncs.com/public/thm-1.0.3.gif)
+![demo-1.0.3](https://static.gezichenshan.top/public/thm-1.0.3.gif)
 
 
 ## 功能特性
