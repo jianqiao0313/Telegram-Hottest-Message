@@ -1,5 +1,4 @@
 import chalk from 'chalk';
-import { readPackage } from 'read-pkg';
 import { TCommandOptions } from "./type";
 import commander from './commander';
 import getDialogsList from './dialogs';
@@ -7,8 +6,10 @@ import { getMessagesList, sortMessageList } from './message';
 import login from './login';
 import forWardTopMessage from './forward';
 import { exit } from 'process';
+import * as packageJson from "../package.json"
 
 const run = async (options: TCommandOptions) => {
+  console.log(packageJson);
   console.log(chalk.green('Running with options:'), options);
   const client = await login(options);
   const dialog = await getDialogsList(client);
@@ -19,7 +20,6 @@ const run = async (options: TCommandOptions) => {
 }
 
 const main = async () => {
-  const packageJson = await readPackage();
   const options = await commander(packageJson)
   await run(options);
   exit(0);

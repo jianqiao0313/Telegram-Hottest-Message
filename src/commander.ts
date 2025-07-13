@@ -8,7 +8,7 @@ import { exit } from "process";
 
 const program = new Command();
 
-const commander = async (packageJson: NormalizedPackageJson) => {
+const commander = async (packageJson: { [key: string]: any }) => {
   clear();
   console.log(
     chalk.yellow(
