@@ -1,6 +1,23 @@
+<p align="center">
+  <img src="assets/logo.png" alt="logo" width="150" height="150"/>
+</p>
+
 # Telegram Hottest Message
 
 Get the hottest messages from Telegram channels and forward them to specified chats.
+
+<div align="center">
+
+  <!-- 项目信息 -->
+  <img src="https://img.shields.io/github/repo-size/jianqiao0313/Telegram-Hottest-Message" alt="Repo size" />
+  <img src="https://img.shields.io/github/license/jianqiao0313/Telegram-Hottest-Message" alt="License" />
+
+  <!-- 社交统计 -->
+  <img src="https://img.shields.io/github/stars/jianqiao0313/Telegram-Hottest-Message?style=social" alt="Stars" />
+  <img src="https://img.shields.io/github/forks/jianqiao0313/Telegram-Hottest-Message?style=social" alt="Forks" />
+  <img src="https://img.shields.io/github/issues/jianqiao0313/Telegram-Hottest-Message" alt="Issues" />
+
+</div>
 
 [中文文档](https://github.com/jianqiao0313/Telegram-Hottest-Message/blob/main/README.zh-CN.md)
 
@@ -148,11 +165,15 @@ npm run lint
 
 ## License
 
-ISC
+MIT
 
 ## Contributing
 
 Issues and Pull Requests are welcome!
+
+## ⭐ Star
+
+[![Stargazers over time](https://starchart.cc/jianqiao0313/Telegram-Hottest-Message.svg?variant=adaptive)](https://starchart.cc/jianqiao0313/Telegram-Hottest-Message)
 
 ## Disclaimer
 

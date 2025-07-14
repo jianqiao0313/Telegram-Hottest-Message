@@ -1,6 +1,23 @@
+<p align="center">
+  <img src="assets/logo.png" alt="logo" width="150" height="150"/>
+</p>
+
 # Telegram Hottest Message
 
 获取 Telegram 指定频道中最热门的消息(表情回复最多的)，并可以转发到指定聊天。（比如：想获取某些福利群组里，想看点赞最多最火的消息）
+
+<div align="center">
+
+  <!-- 项目信息 -->
+  <img src="https://img.shields.io/github/repo-size/jianqiao0313/Telegram-Hottest-Message" alt="Repo size" />
+  <img src="https://img.shields.io/github/license/jianqiao0313/Telegram-Hottest-Message" alt="License" />
+
+  <!-- 社交统计 -->
+  <img src="https://img.shields.io/github/stars/jianqiao0313/Telegram-Hottest-Message?style=social" alt="Stars" />
+  <img src="https://img.shields.io/github/forks/jianqiao0313/Telegram-Hottest-Message?style=social" alt="Forks" />
+  <img src="https://img.shields.io/github/issues/jianqiao0313/Telegram-Hottest-Message" alt="Issues" />
+
+</div>
 
 ![demo-1.0.3](https://static.gezichenshan.top/public/thm-1.0.3.gif)
 
@@ -147,11 +164,15 @@ npm run lint
 
 ## 许可证
 
-ISC
+MIT
 
 ## 贡献
 
 欢迎提交 Issue 和 Pull Request！
+
+## ⭐ Star
+
+[![Stargazers over time](https://starchart.cc/jianqiao0313/Telegram-Hottest-Message.svg?variant=adaptive)](https://starchart.cc/jianqiao0313/Telegram-Hottest-Message)
 
 ## 免责声明
 
