@@ -9,6 +9,10 @@ const getMessagesList = async (client: TelegramClient, dialog: Dialog, options: 
   let offsetId: number | undefined = options.offsetId ? +options.offsetId : undefined;
   while (true) {
     const messages = await _getMessage(client, dialog, offsetId);
+    if (!messages || messages.length === 0) {
+      console.log(chalk.yellow('No more messages found or an error occurred.'));
+      break;
+    }
     messagesList.push(...messages);
     offsetId = messages[messages.length - 1].id;
     console.log(chalk.green(`get ${messages.length} messages, current offset ID: ${offsetId}, total messages: ${messagesList.length}`));

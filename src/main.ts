@@ -14,7 +14,7 @@ const run = async (options: TCommandOptions) => {
   const dialog = await getDialogsList(client);
   const messages = await getMessagesList(client, dialog, options);
   const sortedMessages = sortMessageList(messages);
-  await forWardTopMessage(client, sortedMessages, dialog.name, options.top, options);
+  await forWardTopMessage(client, sortedMessages, dialog.name, options);
   console.log(chalk.yellowBright('Process completed successfully!'));
 }
 
