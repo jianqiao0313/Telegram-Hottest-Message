@@ -4,7 +4,7 @@
 
 # Telegram Hottest Message
 
-Get the hottest messages from Telegram channels and forward them to specified chats.
+Get the hottest messages from a specified Telegram channel and forward them to a target chat.
 
 <div align="center">
 

@@ -1,7 +1,7 @@
 {
   "name": "telegram-hottest-message",
   "version": "1.0.6",
-  "description": "Get the hottest messages from Telegram channels and forward them to specified chats.",
+  "description": "Get the hottest messages from a specified Telegram channel and forward them to a target chat.",
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
