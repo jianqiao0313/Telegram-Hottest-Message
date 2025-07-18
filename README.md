@@ -6,6 +6,8 @@
 
 Get the hottest messages from a specified Telegram channel and forward them to a target chat.
 
+**Please rest assured, THM does not collect any of your information, and all npm packages used are official. Please feel free to use it with confidence.**
+
 <div align="center">
 
   <!-- 项目信息 -->
