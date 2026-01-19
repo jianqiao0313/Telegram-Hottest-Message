@@ -25,6 +25,8 @@ Get the hottest messages from a specified Telegram channel and forward them to a
 
 ![demo-1.0.3](https://static.gezichenshan.top/public/thm-1.0.3.gif)
 
+[If the GIF doesn't play completely, click to view the full demo.](https://static.gezichenshan.top/public/thm-1.0.3.gif)
+
 ## Features
 
 - 🔥 Sort messages by reaction count to find the hottest ones
