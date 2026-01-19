@@ -22,6 +22,7 @@
 </div>
 
 ![demo-1.0.3](https://static.gezichenshan.top/public/thm-1.0.3.gif)
+
 [如果 GIF 播放不全，请点我查看完整 demo](https://static.gezichenshan.top/public/thm-1.0.3.gif)
 
 ## 功能特性
