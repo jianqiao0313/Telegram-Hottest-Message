@@ -1,6 +1,6 @@
 {
   "name": "telegram-hottest-message",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Get the hottest messages from a specified Telegram channel and forward them to a target chat.",
   "main": "dist/index.js",
   "scripts": {
