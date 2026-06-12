@@ -5,8 +5,8 @@ import { MessageWithReactionsCount, TCommandOptions } from "./type";
 import { LIMIT_PER_REQUEST } from './constant';
 
 const getMessagesList = async (client: TelegramClient, dialog: Dialog, options: TCommandOptions) => {
-  const messagesList = [];
-  let offsetId: number | undefined = options.offsetId ? +options.offsetId : undefined;
+  const messagesList: Api.Message[] = [];
+  let offsetId: number | undefined = options.offsetId;
   while (true) {
     const messages = await _getMessage(client, dialog, offsetId);
     if (!messages || messages.length === 0) {
@@ -16,11 +16,11 @@ const getMessagesList = async (client: TelegramClient, dialog: Dialog, options: 
     messagesList.push(...messages);
     offsetId = messages[messages.length - 1].id;
     console.log(chalk.green(`get ${messages.length} messages, current offset ID: ${offsetId}, total messages: ${messagesList.length}`));
-    if (messages.length < LIMIT_PER_REQUEST || messagesList.length > +options.maxMessages) {
+    if (messages.length < LIMIT_PER_REQUEST || messagesList.length >= options.maxMessages) {
       break;
     }
   }
-  return messagesList;
+  return messagesList.slice(0, options.maxMessages);
 }
 
 const _getMessage = async (client: TelegramClient, dialog: Dialog, offsetId?: number) => {

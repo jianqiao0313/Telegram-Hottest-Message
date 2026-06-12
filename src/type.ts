@@ -5,7 +5,7 @@ export interface TCommandOptions {
    * The API ID for the Telegram application.
    * This is required for connecting to the Telegram API.
    */
-  apiId: string;
+  apiId: number;
   /**
    * The API hash for the Telegram application.
    * This is required for connecting to the Telegram API.
@@ -20,20 +20,20 @@ export interface TCommandOptions {
    * The maximum number of messages to fetch.
    * Default is 100000.
    */
-  maxMessages: string;
+  maxMessages: number;
   /**
    * The number of top messages to forward.
-   * Default is 10.
+   * Default is 100.
    */
-  top: string;
+  top: number;
   /**
    * The offset ID for messages.
    * This is used to fetch messages starting from a specific ID.
    */
-  offsetId?: string;
+  offsetId?: number;
   /**
-   * The proxy URL to use for the connection.
-   * Default is 'socks5://127.0.0.1:7890'.
+   * The socks proxy URL to use for the connection.
+   * e.g. 'socks5://user:pass@127.0.0.1:7890'. Empty means no proxy.
    */
   proxy: string;
   /**

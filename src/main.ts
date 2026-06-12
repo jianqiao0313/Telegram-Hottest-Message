@@ -4,23 +4,40 @@ import commander from './commander';
 import getDialogsList from './dialogs';
 import { getMessagesList, sortMessageList } from './message';
 import login from './login';
-import forWardTopMessage from './forward';
+import forwardTopMessages from './forward';
 import { exit } from 'process';
 import * as packageJson from "../package.json"
 
+// session/apiHash/proxy 密码不落终端
+const maskOptions = (options: TCommandOptions) => ({
+  ...options,
+  apiHash: options.apiHash ? '******' : '',
+  session: options.session ? '******' : '',
+  proxy: options.proxy.replace(/\/\/[^@]*@/, '//******@'),
+});
+
 const run = async (options: TCommandOptions) => {
-  console.log(chalk.green('Running with options:'), options);
+  console.log(chalk.green('Running with options:'), maskOptions(options));
   const client = await login(options);
-  const dialog = await getDialogsList(client);
-  const messages = await getMessagesList(client, dialog, options);
-  const sortedMessages = sortMessageList(messages);
-  await forWardTopMessage(client, sortedMessages, dialog.name, options);
-  console.log(chalk.yellowBright('Process completed successfully!'));
+  try {
+    const dialog = await getDialogsList(client);
+    const messages = await getMessagesList(client, dialog, options);
+    const sortedMessages = sortMessageList(messages);
+    await forwardTopMessages(client, sortedMessages, dialog, options);
+    console.log(chalk.yellowBright('Process completed successfully!'));
+  } finally {
+    await client.disconnect();
+  }
 }
 
 const main = async () => {
-  const options = await commander(packageJson)
-  await run(options);
+  try {
+    const options = await commander(packageJson);
+    await run(options);
+  } catch (err) {
+    console.error(chalk.red('Error:'), err instanceof Error ? err.message : err);
+    exit(1);
+  }
   exit(0);
 }
 

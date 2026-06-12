@@ -1,15 +1,23 @@
 import chalk from 'chalk';
 import { Api, TelegramClient } from "telegram";
+import { Dialog } from "telegram/tl/custom/dialog";
 import { TCommandOptions } from './type';
+import { FORWARD_LIMIT_PER_REQUEST } from './constant';
 
-const forWardTopMessage = async (client: TelegramClient, messageList: Api.Message[], channelname = '', options: TCommandOptions) => {
-  const { top, forward } = options;
-  console.log(chalk.green(`forward ${top} messages...`));
-  const topMessages = messageList.slice(0, +top);
-  await client.sendMessage(forward, { message: `[THM] ${(new Date).toLocaleString()} start forward top ${top} messages from ${channelname}...` });
-  await client.forwardMessages(forward, { messages: topMessages, fromPeer: channelname });
-  await client.sendMessage(forward, { message: `[THM] ${(new Date).toLocaleString()} end forward top ${top} messages from ${channelname}.` });
+const forwardTopMessages = async (client: TelegramClient, messageList: Api.Message[], dialog: Dialog, options: TCommandOptions) => {
+  const { forward } = options;
+  const channelName = dialog.name || '';
+  const topMessages = messageList.slice(0, options.top);
+  console.log(chalk.green(`forward top ${topMessages.length} messages...`));
+  await client.sendMessage(forward, { message: `[THM] ${(new Date).toLocaleString()} start forward top ${topMessages.length} messages from ${channelName}...` });
+  for (let i = 0; i < topMessages.length; i += FORWARD_LIMIT_PER_REQUEST) {
+    await client.forwardMessages(forward, {
+      messages: topMessages.slice(i, i + FORWARD_LIMIT_PER_REQUEST),
+      fromPeer: dialog.inputEntity,
+    });
+  }
+  await client.sendMessage(forward, { message: `[THM] ${(new Date).toLocaleString()} end forward top ${topMessages.length} messages from ${channelName}.` });
   console.log(chalk.green('forward complete!'));
 }
 
-export default forWardTopMessage;
+export default forwardTopMessages;

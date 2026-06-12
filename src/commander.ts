@@ -1,14 +1,27 @@
-import { Command } from "commander";
+import { Command, InvalidArgumentError } from "commander";
 import figlet from 'figlet';
 import chalk from 'chalk';
 import clear from 'clear';
-import { NormalizedPackageJson } from 'read-pkg';
 import { TCommandOptions } from "./type";
-import { exit } from "process";
+import { DEFAULT_API_ID, DEFAULT_API_HASH } from "./constant";
 
 const program = new Command();
 
-const commander = async (packageJson: { [key: string]: any }) => {
+type TPackageJson = {
+  name: string;
+  description?: string;
+  version: string;
+};
+
+const parsePositiveInt = (value: string) => {
+  const trimmed = value.trim();
+  if (!/^\d+$/.test(trimmed) || parseInt(trimmed, 10) <= 0) {
+    throw new InvalidArgumentError('must be a positive integer.');
+  }
+  return parseInt(trimmed, 10);
+};
+
+const commander = async (packageJson: TPackageJson) => {
   clear();
   console.log(
     chalk.yellow(
@@ -21,14 +34,14 @@ const commander = async (packageJson: { [key: string]: any }) => {
   program
     .name('thm')
     .description(packageJson.description || '')
-    .option('-I, --apiId <number>', 'apiId', '2040')
-    .option('-H, --apiHash <string>', 'apiHash', 'b18441a1ff607e10a989891a5462e627')
+    .option('-I, --apiId <number>', 'apiId', parsePositiveInt, DEFAULT_API_ID)
+    .option('-H, --apiHash <string>', 'apiHash', DEFAULT_API_HASH)
     .option('-S, --session <string>', 'session (not bot session)', '')
-    .option('-M, --maxMessages <number>', 'max messages to fetch default 100000', '100000')
-    .option('-T, --top <number>', 'top messages to forward', '100')
-    .option('-O, --offsetId <number>', 'offset id for messages')
+    .option('-M, --maxMessages <number>', 'max messages to fetch', parsePositiveInt, 100000)
+    .option('-T, --top <number>', 'top messages to forward', parsePositiveInt, 100)
+    .option('-O, --offsetId <number>', 'offset id for messages', parsePositiveInt)
     .option('-P, --proxy <string>', 'proxy url (e.g. socks5://[user:pass@]127.0.0.1:7890)', '')
-    .option('-F, --forward <string>', 'forward hottest messages to a specific chat (default: me)', 'me')
+    .option('-F, --forward <string>', 'forward hottest messages to a specific chat', 'me')
     .helpOption("-h, --help", "help for command")
     .version(packageJson.version)
 
@@ -39,8 +52,8 @@ const commander = async (packageJson: { [key: string]: any }) => {
 };
 
 const checkOptions = (options: TCommandOptions) => {
-  if (options.apiId === '2040' && options.apiHash === 'b18441a1ff607e10a989891a5462e627' && !options.session) {
-    console.error(chalk.blue('Not input apiId、apiHash or session, use default apiId、apiHash.'));
+  if (options.apiId === DEFAULT_API_ID && options.apiHash === DEFAULT_API_HASH) {
+    console.warn(chalk.yellow("Warning: using the built-in default apiId/apiHash (Telegram Desktop's public credentials), which may violate Telegram ToS and risks account limitation. Consider creating your own at https://my.telegram.org and passing them via -I/-H."));
   }
 }
 

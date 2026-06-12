@@ -5,26 +5,34 @@ import input from '@inquirer/input';
 import { TCommandOptions } from "./type";
 import { ProxyInterface } from 'telegram/network/connection/TCPMTProxy';
 
+const parseProxy = (proxyConfig: string): ProxyInterface => {
+  let url: URL;
+  try {
+    url = new URL(proxyConfig);
+  } catch {
+    throw new Error(`invalid proxy url: ${proxyConfig}`);
+  }
+  if (url.protocol !== 'socks5:' && url.protocol !== 'socks4:') {
+    throw new Error(`unsupported proxy protocol "${url.protocol}", only socks4:// and socks5:// are supported.`);
+  }
+  if (!url.port) {
+    throw new Error(`proxy port is required: ${proxyConfig}`);
+  }
+  return {
+    ip: url.hostname.replace(/^\[|\]$/g, ''),
+    port: +url.port,
+    socksType: url.protocol === 'socks5:' ? 5 : 4,
+    username: url.username ? decodeURIComponent(url.username) : undefined,
+    password: url.password ? decodeURIComponent(url.password) : undefined,
+  };
+}
+
 const login = async (options: TCommandOptions) => {
   console.log(chalk.green('start login...'));
-  let proxy: ProxyInterface | undefined = undefined;
-  // 处理proxy
-  const proxyConfig = options.proxy;
-  if(proxyConfig){
-    const socksType = proxyConfig.startsWith('socks5://') ? 5 : 4;
-    const proxyUrl = proxyConfig.replace(/socks5?:\/\//, '');
-    // [user, pass, ip, port] or [ip, port]
-    const proxySplitArr = proxyUrl.split(/[:@]/);
-    proxy = {
-      ip: proxySplitArr[proxySplitArr.length - 2],
-      port: +proxySplitArr[proxySplitArr.length - 1],
-      socksType,
-      username: proxySplitArr[proxySplitArr.length - 4],
-      password: proxySplitArr[proxySplitArr.length - 3],
-    }
-  }
-  const client = new TelegramClient(new StringSession(options.session), +options.apiId, options.apiHash, {
+  const proxy = options.proxy ? parseProxy(options.proxy) : undefined;
+  const client = new TelegramClient(new StringSession(options.session), options.apiId, options.apiHash, {
     connectionRetries: 5,
+    floodSleepThreshold: 120, // FLOOD_WAIT 不超过 120s 时自动等待重试
     proxy,
   });
   await client.connect();
@@ -38,7 +46,9 @@ const login = async (options: TCommandOptions) => {
     });
   }
   console.log(chalk.green('login success!'));
-  console.log(chalk.yellowBright('Your session string is:'), client.session.save());
+  if (!options.session) {
+    console.log(chalk.yellowBright('Your session string is (save it and pass via -S to skip login next time):'), client.session.save());
+  }
   return client;
 }
 
