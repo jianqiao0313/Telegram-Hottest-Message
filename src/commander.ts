@@ -21,6 +21,31 @@ const parsePositiveInt = (value: string) => {
   return parseInt(trimmed, 10);
 };
 
+const parseDate = (value: string): Date => {
+  const trimmed = value.trim();
+  // relative: e.g. "7d", "30d", "1h"
+  const relativeMatch = trimmed.match(/^(\d+)([dh])$/);
+  if (relativeMatch) {
+    const amount = parseInt(relativeMatch[1], 10);
+    const unit = relativeMatch[2];
+    const now = new Date();
+    if (unit === 'd') {
+      now.setDate(now.getDate() - amount);
+    } else {
+      now.setHours(now.getHours() - amount);
+    }
+    return now;
+  }
+  // absolute: e.g. "2024-01-01", "2024-01-01T12:00:00"
+  const date = new Date(trimmed);
+  if (isNaN(date.getTime())) {
+    throw new InvalidArgumentError(
+      `invalid date format "${trimmed}". Use relative like "7d"/"24h" or absolute like "2024-01-01".`
+    );
+  }
+  return date;
+};
+
 const commander = async (packageJson: TPackageJson) => {
   clear();
   console.log(
@@ -42,6 +67,8 @@ const commander = async (packageJson: TPackageJson) => {
     .option('-O, --offsetId <number>', 'offset id for messages', parsePositiveInt)
     .option('-P, --proxy <string>', 'proxy url (e.g. socks5://[user:pass@]127.0.0.1:7890)', '')
     .option('-F, --forward <string>', 'forward hottest messages to a specific chat', 'me')
+    .option('--since <string>', 'only fetch messages newer than this date (e.g. "7d" or "2024-01-01")', parseDate)
+    .option('--until <string>', 'only fetch messages older than this date (e.g. "2024-12-31")', parseDate)
     .helpOption("-h, --help", "help for command")
     .version(packageJson.version)
 

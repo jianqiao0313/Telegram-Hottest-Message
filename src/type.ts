@@ -41,6 +41,16 @@ export interface TCommandOptions {
    * Default is 'me'.
    */
   forward: string;
+  /**
+   * Only fetch messages newer than this date.
+   * e.g. '7d' for 7 days ago, or '2024-01-01' for an absolute date.
+   */
+  since?: Date;
+  /**
+   * Only fetch messages older than this date.
+   * e.g. '2024-12-31'.
+   */
+  until?: Date;
 }
 
 export type MessageWithReactionsCount = Api.Message & { reactionsCount?: number };

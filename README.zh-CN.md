@@ -31,6 +31,7 @@
 - 📨 支持将热门消息转发到指定聊天
 - 🌐 支持 SOCKS5/HTTP 代理
 - 🎯 可自定义获取消息数量和转发数量
+- 📅 支持按时间范围筛选消息（如最近 7 天、指定日期等）
 - 📱 交互式选择频道对话
 - 💾 支持会话持久化
 
@@ -78,6 +79,8 @@ thm -I your_api_id -H your_api_hash -S your_session_string -M 50000 -T 20 -P soc
 | `-O` | `--offsetId` | 消息偏移ID | 无 |
 | `-P` | `--proxy` | 代理地址 | 无 |
 | `-F` | `--forward` | 转发目标聊天 | `me` |
+| `--since` |  | 仅获取此日期之后的消息（如 `7d`/`2024-01-01`） | 无 |
+| `--until` |  | 仅获取此日期之前的消息（如 `2024-12-31`） | 无 |
 
 ## 获取 API 凭证
 
@@ -120,6 +123,19 @@ thm -S "your_session_string_here" -P "socks5://user:pass@127.0.0.1:1080"
 
 ```bash
 thm -S "your_session_string_here" -F "your_channel_username"
+```
+
+### 示例 6：按时间范围筛选
+
+```bash
+# 获取最近 7 天最火的 20 条
+thm -S "your_session_string_here" --since 7d -T 20
+
+# 获取 2024 年全年最火的
+thm -S "your_session_string_here" --since 2024-01-01 --until 2025-01-01
+
+# 获取最近 24 小时最火的
+thm -S "your_session_string_here" --since 24h
 ```
 
 ## 工作流程

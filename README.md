@@ -33,6 +33,7 @@ Get the hottest messages from a specified Telegram channel and forward them to a
 - 📨 Forward hottest messages to specified chats
 - 🌐 Support for SOCKS5/HTTP proxy
 - 🎯 Customizable message count and forward count
+- 📅 Time-range filtering for messages (e.g. last 7 days, specific dates)
 - 📱 Interactive channel selection
 - 💾 Session persistence support
 
@@ -80,6 +81,8 @@ thm -I your_api_id -H your_api_hash -S your_session_string -M 50000 -T 20 -P soc
 | `-O` | `--offsetId` | Message offset ID | None |
 | `-P` | `--proxy` | Proxy address | None |
 | `-F` | `--forward` | Forward target chat | `me` |
+| | `--since` | Only fetch messages newer than this date (e.g. `7d` or `2024-01-01`) | None |
+| | `--until` | Only fetch messages older than this date (e.g. `2024-12-31`) | None |
 
 ## Getting API Credentials
 
@@ -122,6 +125,19 @@ thm -S "your_session_string_here" -P "socks5://user:pass@127.0.0.1:1080"
 
 ```bash
 thm -S "your_session_string_here" -F "your_channel_username"
+```
+
+### Example 6: Filter by time range
+
+```bash
+# Get top 20 hottest messages from the last 7 days
+thm -S "your_session_string_here" --since 7d -T 20
+
+# Get hottest messages from year 2024
+thm -S "your_session_string_here" --since 2024-01-01 --until 2025-01-01
+
+# Get top from the last 24 hours
+thm -S "your_session_string_here" --since 24h
 ```
 
 ## Workflow
