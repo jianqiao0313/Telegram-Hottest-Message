@@ -4,6 +4,7 @@ import chalk from 'chalk';
 import clear from 'clear';
 import { TCommandOptions } from "./type";
 import { DEFAULT_API_ID, DEFAULT_API_HASH } from "./constant";
+import { loadConfig, TConfig } from "./config";
 
 const program = new Command();
 
@@ -73,13 +74,27 @@ const commander = async (packageJson: TPackageJson) => {
     .version(packageJson.version)
 
   program.parse();
-  const options: TCommandOptions = program.opts();
-  checkOptions(options);
-  return options;
+  const options = program.opts<Partial<TCommandOptions>>();
+  const config = loadConfig();
+  checkOptions(options, config);
+  return {
+    apiId: (options.apiId === DEFAULT_API_ID ? config.apiId : options.apiId) ?? DEFAULT_API_ID,
+    apiHash: (options.apiHash === DEFAULT_API_HASH ? config.apiHash : options.apiHash) ?? DEFAULT_API_HASH,
+    session: options.session || config.session || '',
+    maxMessages: options.maxMessages ?? 100000,
+    top: options.top ?? 100,
+    offsetId: options.offsetId,
+    proxy: options.proxy || config.proxy || '',
+    forward: (options.forward === 'me' ? config.forward : options.forward) ?? 'me',
+    since: options.since || (config.since ? parseDate(config.since) : undefined),
+    until: options.until || (config.until ? parseDate(config.until) : undefined),
+  } as TCommandOptions;
 };
 
-const checkOptions = (options: TCommandOptions) => {
-  if (options.apiId === DEFAULT_API_ID && options.apiHash === DEFAULT_API_HASH) {
+const checkOptions = (options: Partial<TCommandOptions>, config: TConfig) => {
+  const apiId = (options.apiId === DEFAULT_API_ID ? config.apiId : options.apiId) ?? DEFAULT_API_ID;
+  const apiHash = (options.apiHash === DEFAULT_API_HASH ? config.apiHash : options.apiHash) ?? DEFAULT_API_HASH;
+  if (apiId === DEFAULT_API_ID && apiHash === DEFAULT_API_HASH) {
     console.warn(chalk.yellow("Warning: using the built-in default apiId/apiHash (Telegram Desktop's public credentials), which may violate Telegram ToS and risks account limitation. Consider creating your own at https://my.telegram.org and passing them via -I/-H."));
   }
 }
