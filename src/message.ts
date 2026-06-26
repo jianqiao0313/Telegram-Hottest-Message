@@ -9,41 +9,40 @@ const getMessagesList = async (client: TelegramClient, dialog: Dialog, options: 
   let offsetId: number | undefined = options.offsetId;
   const sinceTs = options.since ? Math.floor(options.since.getTime() / 1000) : undefined;
   const untilTs = options.until ? Math.floor(options.until.getTime() / 1000) : undefined;
-  // Use `since` as offsetDate to start fetching from that date
-  let offsetDate: number | undefined = sinceTs;
   while (true) {
-    const messages = await _getMessage(client, dialog, offsetId, offsetDate);
+    const messages = await _getMessage(client, dialog, offsetId);
     if (!messages || messages.length === 0) {
       console.log(chalk.yellow('No more messages found or an error occurred.'));
       break;
     }
-    // Filter out messages newer than `until`
-    let pageMessages = messages;
-    if (untilTs) {
-      pageMessages = messages.filter((m: Api.Message) => !m.date || m.date <= untilTs);
-    }
-    // Check if we've crossed the `since` boundary
-    const hasCrossedSince = sinceTs !== undefined && pageMessages.some((m: Api.Message) => m.date && m.date < sinceTs);
-    pageMessages.forEach((m: Api.Message) => messagesList.push(m));
-    offsetId = pageMessages[pageMessages.length - 1].id;
-    // Update offsetDate to the oldest message timestamp in this batch
-    const oldestMsg = pageMessages[pageMessages.length - 1];
-    if (oldestMsg.date) {
-      offsetDate = oldestMsg.date;
-    }
-    console.log(chalk.green(`get ${pageMessages.length} messages, current offset ID: ${offsetId}, total messages: ${messagesList.length}`));
-    if (pageMessages.length < LIMIT_PER_REQUEST || messagesList.length >= options.maxMessages || hasCrossedSince) {
+    // Filter messages within [sinceTs, untilTs]
+    const filtered = messages.filter((m: Api.Message) => {
+      if (!m.date) return false;
+      if (untilTs && m.date > untilTs) return false;
+      if (sinceTs && m.date < sinceTs) return false;
+      return true;
+    });
+    filtered.forEach((m: Api.Message) => messagesList.push(m));
+    offsetId = messages[messages.length - 1].id;
+    console.log(chalk.green(`get ${filtered.length} messages (filtered from ${messages.length}), current offset ID: ${offsetId}, total messages: ${messagesList.length}`));
+    if (messages.length < LIMIT_PER_REQUEST || messagesList.length >= options.maxMessages) {
       break;
+    }
+    // Stop if the oldest message in this batch is older than sinceTs
+    if (sinceTs) {
+      const oldestMsg = messages[messages.length - 1];
+      if (oldestMsg.date && oldestMsg.date < sinceTs) {
+        break;
+      }
     }
   }
   return messagesList.slice(0, options.maxMessages);
 }
 
-const _getMessage = async (client: TelegramClient, dialog: Dialog, offsetId?: number, offsetDate?: number) => {
+const _getMessage = async (client: TelegramClient, dialog: Dialog, offsetId?: number) => {
   return await client.getMessages(dialog.entity, {
     limit: LIMIT_PER_REQUEST,
     offsetId,
-    offsetDate,
   });
 }
 
