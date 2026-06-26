@@ -89,6 +89,34 @@ thm -I your_api_id -H your_api_hash -S your_session_string -M 50000 -T 20 -P soc
 3. 点击 "API development tools"
 4. 创建新应用程序获取 `api_id` 和 `api_hash`
 
+## 配置文件
+
+在主目录下创建 `~/.thmrc` 文件，以 JSON 格式持久化默认配置：
+
+```json
+{
+  "apiId": 123456,
+  "apiHash": "your_api_hash",
+  "session": "your_session_string",
+  "proxy": "socks5://127.0.0.1:1080",
+  "forward": "me",
+  "since": "7d",
+  "until": "2024-12-31"
+}
+```
+
+| 字段 | 说明 |
+|------|------|
+| `apiId` | Telegram API ID |
+| `apiHash` | Telegram API Hash |
+| `session` | 会话字符串 |
+| `proxy` | 代理地址（socks5:// 或 http://） |
+| `forward` | 默认转发目标聊天 |
+| `since` | 默认时间下限（如 `7d`） |
+| `until` | 默认时间上限（如 `2024-12-31`） |
+
+命令行参数优先于配置文件，未指定的参数会回退到 `~/.thmrc`（如果存在），再回退到内置默认值。
+
 ## 会话字符串
 
 首次运行时，程序会提示您输入手机号和验证码进行登录，登录成功后会显示会话字符串。请保存此字符串用于后续使用。

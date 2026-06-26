@@ -91,6 +91,34 @@ thm -I your_api_id -H your_api_hash -S your_session_string -M 50000 -T 20 -P soc
 3. Click "API development tools"
 4. Create a new application to get `api_id` and `api_hash`
 
+## Configuration File
+
+Create `~/.thmrc` in your home directory with JSON content to persist default settings:
+
+```json
+{
+  "apiId": 123456,
+  "apiHash": "your_api_hash",
+  "session": "your_session_string",
+  "proxy": "socks5://127.0.0.1:1080",
+  "forward": "me",
+  "since": "7d",
+  "until": "2024-12-31"
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `apiId` | Telegram API ID |
+| `apiHash` | Telegram API Hash |
+| `session` | Session string |
+| `proxy` | Proxy URL (socks5:// or http://) |
+| `forward` | Default forward target chat |
+| `since` | Default time lower bound (e.g. `7d`) |
+| `until` | Default time upper bound (e.g. `2024-12-31`) |
+
+CLI parameters take precedence over config file values. Fields not specified in CLI will fall back to `~/.thmrc` (if present), then to built-in defaults.
+
 ## Session String
 
 When running for the first time, the program will prompt you to enter your phone number and verification code to log in. After successful login, it will display the session string. Please save this string for future use.
